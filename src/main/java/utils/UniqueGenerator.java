@@ -5,11 +5,16 @@ import com.github.javafaker.Faker;
 
 import pojo.Book;
 
+
 public class UniqueGenerator {
 
+	static Faker faker;
+	static {
+		faker= new Faker();
+	}
 	
 	public static Book getUniqueBookObject() {
-		Faker faker= new Faker();
+		
 		String isbn=faker.internet().password();
 		String aisle= faker.number().digits(4);
 		String bookName= faker.book().title();
@@ -17,5 +22,9 @@ public class UniqueGenerator {
 		
 		Book book = new Book(bookName, isbn, aisle, author);
 		return book;
+	}
+	
+	public static String getUnqiqueString() {
+		return faker.name().firstName();
 	}
 }

@@ -1,9 +1,6 @@
 package stepDefinitions;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-
-import java.net.HttpURLConnection;
 
 import org.testng.Assert;
 
@@ -14,6 +11,7 @@ import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import pojo.Book;
 import utils.CreateSpec;
 import utils.JSONParser;
 import utils.UniqueGenerator;
@@ -42,4 +40,11 @@ public class AddBookStepDefinition {
 		Assert.assertEquals(actualMsg, expectedMsg, "Key mismatch");
 	}
 
+	@When("user sends post request to add book with {string} {string} {string} {string}")
+	public void user_sends_post_request_to_add_book_with(String bookName, String isbn, String aisle, String author) {
+		
+		Book book = new Book(bookName, isbn+UniqueGenerator.getUnqiqueString(), aisle+isbn+UniqueGenerator.getUnqiqueString(), author);
+		 addBookResponse = given().spec(CreateSpec.makeRequestSpec(ApiResources.LibraryManagementBaseUrl.getResource(), ContentType.JSON))
+		.body(book).when().post(ApiResources.postBook.getResource()).then().log().all().extract().response();
+	}
 }
