@@ -4,7 +4,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(features="src/main/java/featureFiles", glue="stepDefinitions",  
-tags="@Reg")
+tags="@Smoke")
 public class TestRunner extends AbstractTestNGCucumberTests {
 
 	
