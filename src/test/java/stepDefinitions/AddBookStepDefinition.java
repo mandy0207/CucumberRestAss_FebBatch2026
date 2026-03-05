@@ -38,7 +38,7 @@ public class AddBookStepDefinition {
 		scenarioContext.setBookID(bookID);
 		
 	}
-
+	
 	@Then("response should contain message {string}")
 	public void response_should_contain_message(String expectedMsg) {
 		String actualMsg=JSONParser.getjsonParser(scenarioContext.getResponse().asString()).get("Msg");
@@ -48,7 +48,8 @@ public class AddBookStepDefinition {
 	@When("user sends post request to add book with {string} {string} {string} {string}")
 	public void user_sends_post_request_to_add_book_with(String bookName, String isbn, String aisle, String author) {
 		Book book = new Book(bookName, isbn+UniqueGenerator.getUnqiqueString(), aisle+isbn+UniqueGenerator.getUnqiqueString(), author);
-		  given().spec(CreateSpec.makeRequestSpec(ApiResources.LibraryManagementBaseUrl.getResource(), ContentType.JSON))
+		Response addBookResponse=  given().spec(CreateSpec.makeRequestSpec(ApiResources.LibraryManagementBaseUrl.getResource(), ContentType.JSON))
 		.body(book).when().post(ApiResources.postBook.getResource()).then().log().all().extract().response();
+		  scenarioContext.setResponse(addBookResponse);
 	}
 }
